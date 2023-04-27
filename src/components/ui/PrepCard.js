@@ -5,11 +5,20 @@ import dummydata from '../../../dummydata';
 import CustomText from './CustomText';
 import IngredientCard from './IngredientCard';
 import COLORS from '../../Colors';
-const PrepCard = () => {
-  console.log(dummydata[0]);
+import { TouchableOpacity } from 'react-native-gesture-handler';
+import { useNavigation } from '@react-navigation/native';
 
+const PrepCard = () => {
+  const navigation = useNavigation();
+  console.log(dummydata[0]);
+  const item = dummydata[0];
+  function onPressHandler() {
+    navigation.navigate('PrepDetailScreen', {
+      item: item
+    });
+  }
   return (
-    <View style={styles.container}>
+    <TouchableOpacity onPress={onPressHandler} style={styles.container}>
       <CustomText style={styles.prepName}>{dummydata[0].name}</CustomText>
 
       {dummydata !== undefined || typeof dummydata !== 'undefined'
@@ -25,7 +34,7 @@ const PrepCard = () => {
         : null}
 
       <IngredientCard />
-    </View>
+    </TouchableOpacity>
   );
 };
 
