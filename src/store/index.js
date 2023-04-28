@@ -8,5 +8,6 @@ const store = configureStore({
     prepsinprogress: prepsinprogressSlice.reducer
   }
 });
+// store.subscribe(() => console.log(store.getState()));
 
 export default store;
