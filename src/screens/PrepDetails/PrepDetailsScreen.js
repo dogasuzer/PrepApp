@@ -1,22 +1,60 @@
 import { View, Text } from 'react-native';
-import React from 'react';
+import React, { useEffect } from 'react';
 import StepCard from '../../components/ui/StepCard';
 import { useDispatch, useSelector } from 'react-redux';
 import CustomButton from '../../components/ui/CustomButton';
 import { StyleSheet } from 'react-native';
+import { prepsinprogressActions } from '../../store/prepsinprogress-slice';
 
 const PrepDetailsScreen = ({ route }) => {
   const { item } = route.params;
   // console.log(item.name);
+  const dispatch = useDispatch();
+  const showStep = useSelector(state => state.ui.showStep);
 
-  const showStep = useSelector(state => state.ui.cartIsVisible);
+  function addToPrepsInProgress() {
+    dispatch(
+      prepsinprogressActions.addPrepToProgress({
+        id: item.id,
+        name: item.name,
+        steps: item.steps,
+        ingredients: item.ingredients,
+        totalTime: item.totalTime,
+        isOnPrepToProgress: true
+      })
+    );
+  }
+
+  function removeFromPrepsInProgress() {
+    dispatch(
+      prepsinprogressActions.removePrepToProgress({
+        id: item.id,
+        name: item.name,
+        steps: item.steps,
+        ingredients: item.ingredients,
+        totalTime: item.totalTime,
+        isOnPrepToProgress: false
+      })
+    );
+  }
 
   return (
     <View style={styles.card}>
-      <CustomButton
-        style={styles.button}
-        text={'Add to your preps in progress'}
-      ></CustomButton>
+      {!item.isOnPrepToProgress && (
+        <CustomButton
+          style={styles.button}
+          onPress={addToPrepsInProgress}
+          text={'Add to your preps in progress'}
+        ></CustomButton>
+      )}
+      {item.isOnPrepToProgress && (
+        <CustomButton
+          style={styles.button}
+          onPress={removeFromPrepsInProgress}
+          text={'Remove from your preps in progress'}
+        ></CustomButton>
+      )}
+
       <Text>{item.name}</Text>
       {item !== undefined || typeof item !== 'undefined'
         ? item.steps.map(item => {
