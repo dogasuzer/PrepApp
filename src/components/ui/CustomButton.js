@@ -1,4 +1,4 @@
-import { View, Text, TouchableOpacity } from 'react-native';
+import { TouchableOpacity } from 'react-native';
 import React from 'react';
 import CustomText from './CustomText';
 
@@ -18,7 +18,7 @@ const CustomButton = ({ style, onPress, text, textColor }) => {
       ]}
       onPress={onPress}
     >
-      <CustomText style={{ color: textColor, fontSize: 20 }}>{text}</CustomText>
+      <CustomText style={{ color: textColor, fontSize: 18 }}>{text}</CustomText>
     </TouchableOpacity>
   );
 };
