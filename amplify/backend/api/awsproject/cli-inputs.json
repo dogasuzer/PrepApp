@@ -4,16 +4,12 @@
     "apiName": "awsproject",
     "serviceName": "AppSync",
     "defaultAuthType": {
-      "mode": "AMAZON_COGNITO_USER_POOLS",
-      "cognitoUserPoolId": "authawsprojectf0a80e56"
+      "mode": "API_KEY",
+      "expirationTime": 11,
+      "apiKeyExpirationDate": "2023-05-17T20:17:48.646Z",
+      "keyDescription": ""
     },
-    "additionalAuthTypes": [
-      {
-        "mode": "API_KEY",
-        "expirationTime": 365,
-        "apiKeyExpirationDate": "2024-04-14T12:04:52.957Z",
-        "keyDescription": "myapikey"
-      }
-    ]
+    "additionalAuthTypes": [],
+    "conflictResolution": {}
   }
 }

@@ -19,5 +19,23 @@
         "awsproject": {}
       }
     }
+  },
+  "prepappi": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-awsproject-prepappi-235501-authRole",
+      "UnauthRoleArn": "arn:aws:iam::160947341810:role/amplify-awsproject-prepappi-235501-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::160947341810:role/amplify-awsproject-prepappi-235501-authRole",
+      "Region": "us-east-1",
+      "DeploymentBucketName": "amplify-awsproject-prepappi-235501-deployment",
+      "UnauthRoleName": "amplify-awsproject-prepappi-235501-unauthRole",
+      "StackName": "amplify-awsproject-prepappi-235501",
+      "StackId": "arn:aws:cloudformation:us-east-1:160947341810:stack/amplify-awsproject-prepappi-235501/46f7b0d0-ec50-11ed-bb9a-121d6d0b7911",
+      "AmplifyAppId": "d12f3bvzulz80"
+    },
+    "categories": {
+      "auth": {
+        "awsprojectf0a80e56": {}
+      }
+    }
   }
 }
