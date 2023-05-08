@@ -1,16 +1,26 @@
-import { View, Text } from 'react-native';
-import React, { useEffect } from 'react';
+import { View, Text, TouchableOpacity } from 'react-native';
+import React from 'react';
 import StepCard from '../../components/ui/StepCard';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import CustomButton from '../../components/ui/CustomButton';
 import { StyleSheet } from 'react-native';
 import { prepsinprogressActions } from '../../store/prepsinprogress-slice';
+import { useNavigation } from '@react-navigation/native';
+import COLORS, { RANDOMCOLORS } from '../../Colors';
+import {
+  capitalizeFirstLetter,
+  generateRandomColor,
+  generateRandomId
+} from '../../util/helperfunctions';
 
 const PrepDetailsScreen = ({ route }) => {
+  const randomColor = RANDOMCOLORS[generateRandomColor()];
   const { item } = route.params;
-  // console.log(item.name);
   const dispatch = useDispatch();
-  const showStep = useSelector(state => state.ui.showStep);
+  const navigation = useNavigation();
+  const randomId = () => {
+    return Math.random();
+  };
 
   function addToPrepsInProgress() {
     dispatch(
@@ -23,6 +33,8 @@ const PrepDetailsScreen = ({ route }) => {
         isOnPrepToProgress: true
       })
     );
+
+    navigation.navigate('PrepsInProgressScreen');
   }
 
   function removeFromPrepsInProgress() {
@@ -36,37 +48,63 @@ const PrepDetailsScreen = ({ route }) => {
         isOnPrepToProgress: false
       })
     );
+    navigation.navigate('PrepsInProgressScreen');
   }
 
   return (
     <View style={styles.card}>
+      <View
+        style={{
+          justifyContent: 'flex-start',
+
+          backgroundColor: randomColor,
+          height: 130,
+          width: '100%',
+          flexDirection: 'row',
+          alignItems: 'flex-end'
+        }}
+      >
+        <TouchableOpacity
+          style={{ maxWidth: '10%', marginRight: 30, marginLeft: 10 }}
+          onPress={() => navigation.goBack()}
+        >
+          <Text style={styles.text}>{'<'}</Text>
+        </TouchableOpacity>
+        <View style={{ maxWidth: '80%' }}>
+          <Text style={styles.text}>{capitalizeFirstLetter(item.name)}</Text>
+        </View>
+      </View>
+
       {!item.isOnPrepToProgress && (
         <CustomButton
           style={styles.button}
           onPress={addToPrepsInProgress}
-          text={'Add to your preps in progress'}
+          text={'+ Add to your preps in progress'}
         ></CustomButton>
       )}
       {item.isOnPrepToProgress && (
         <CustomButton
           style={styles.button}
           onPress={removeFromPrepsInProgress}
-          text={'Remove from your preps in progress'}
+          text={'- Remove from in progress'}
         ></CustomButton>
       )}
 
-      <Text>{item.name}</Text>
-      {item !== undefined || typeof item !== 'undefined'
-        ? item.steps.map(item => {
-            return (
-              <View>
-                <StepCard item={item} showStep={showStep} />
-              </View>
-            );
-          })
-        : null}
-
-      <StepCard />
+      <View style={{ width: '90%' }}>
+        {item !== undefined || typeof item !== 'undefined'
+          ? item.steps.map(item => {
+              return (
+                <StepCard
+                  color={randomColor}
+                  id={randomId()}
+                  showStep={true}
+                  item={item}
+                  key={generateRandomId()}
+                />
+              );
+            })
+          : null}
+      </View>
     </View>
   );
 };
@@ -75,14 +113,20 @@ export default PrepDetailsScreen;
 
 const styles = StyleSheet.create({
   button: {
-    marginTop: 40,
+    margin: 30,
     justifyContent: 'center',
-    padding: 20,
-    width: 350,
-    height: 70
+    width: 'auto',
+    padding: 10
   },
   card: {
     justifyContent: 'center',
     alignItems: 'center'
+  },
+  text: {
+    fontSize: 24,
+    textAlign: 'center',
+    color: COLORS.white,
+    paddingTop: 20,
+    paddingBottom: 30
   }
 });

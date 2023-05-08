@@ -1,11 +1,15 @@
-import { View } from 'react-native';
+import { View, TouchableOpacity } from 'react-native';
 import React from 'react';
 import { StyleSheet } from 'react-native';
 import CustomText from './CustomText';
 import IngredientCard from './IngredientCard';
 import COLORS from '../../Colors';
-import { TouchableOpacity } from 'react-native-gesture-handler';
 import { useNavigation } from '@react-navigation/native';
+import {
+  capitalizeFirstLetter,
+  generateRandomId
+} from '../../util/helperfunctions';
+import SHADOWS from '../../Shadows';
 
 const PrepCard = ({ item }) => {
   const navigation = useNavigation();
@@ -15,20 +19,32 @@ const PrepCard = ({ item }) => {
     });
   }
   return (
-    <TouchableOpacity onPress={onPressHandler} style={styles.container}>
-      <CustomText style={styles.prepName}>{item.name}</CustomText>
+    <TouchableOpacity
+      onPress={onPressHandler}
+      style={styles.container}
+      activeOpacity={0.7}
+    >
+      <CustomText style={styles.prepName}>
+        {capitalizeFirstLetter(item.name)}
+      </CustomText>
+      <View style={styles.ingredientscard}>
+        {item !== undefined || typeof item !== 'undefined'
+          ? item.ingredients.map(ingredients => {
+              return (
+                <IngredientCard key={generateRandomId()} item={ingredients} />
+              );
+            })
+          : null}
+      </View>
+      <View style={styles.info}>
+        <View style={styles.box}></View>
+        <CustomText style={{ marginRight: 20 }}>
+          {item.steps.length} steps
+        </CustomText>
+        <View style={styles.box}></View>
 
-      {item !== undefined || typeof item !== 'undefined'
-        ? item.ingredients.map(item => {
-            return (
-              <View style={styles.ingredientscard}>
-                <IngredientCard item={item} />
-              </View>
-            );
-          })
-        : null}
-
-      <IngredientCard />
+        <CustomText>{item.totalTime} min prepare time</CustomText>
+      </View>
     </TouchableOpacity>
   );
 };
@@ -36,16 +52,27 @@ const PrepCard = ({ item }) => {
 export default PrepCard;
 
 const styles = StyleSheet.create({
-  container: {
-    marginTop: 40,
+  container: [
+    {
+      marginTop: 20,
+      marginBottom: 20,
+      justifyContent: 'space-evenly',
+      alignItems: 'center',
+      padding: 20,
+      backgroundColor: COLORS.white,
+      minHeight: 200,
+      width: '90%',
+      borderRadius: 20,
+      alignSelf: 'center'
+    },
+    SHADOWS.shadow10
+  ],
+  ingredientscard: {
     justifyContent: 'center',
-    alignItems: 'center',
-    padding: 20,
-    backgroundColor: COLORS.secondary200,
-    width: 360,
-    minHeight: 200
+    flexDirection: 'row',
+    width: '90%',
+    flexWrap: 'wrap'
   },
-  ingredientscard: { justifyContent: 'center', flexDirection: 'row' },
   prep: {
     marginBottom: 15
   },
@@ -59,5 +86,18 @@ const styles = StyleSheet.create({
     padding: 8
   },
   prepListWrapper: { marginTop: 20 },
-  prepName: { fontSize: 19, color: COLORS.secondary400 }
+  prepName: { fontSize: 19, color: COLORS.secondary400, textAlign: 'center' },
+  info: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    flexDirection: 'row',
+    padding: 10
+  },
+  box: {
+    width: 13,
+    height: 13,
+    backgroundColor: COLORS.primary,
+    marginRight: 7,
+    marginBottom: 3
+  }
 });
