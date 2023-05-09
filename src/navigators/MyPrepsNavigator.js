@@ -6,7 +6,11 @@ import MyPrepsScreen from '../screens/MyPreps/MyPrepsScreen';
 const Stack = createStackNavigator();
 
 const MyPrepsNavigator = () => (
-  <Stack.Navigator>
+  <Stack.Navigator
+    screenOptions={{
+      headerShown: false
+    }}
+  >
     <Stack.Screen
       name="MyPreps"
       component={MyPrepsScreen}

@@ -7,7 +7,11 @@ const Stack = createStackNavigator();
 
 const AppNavigator = () => {
   return (
-    <Stack.Navigator>
+    <Stack.Navigator
+      screenOptions={{
+        headerShown: false
+      }}
+    >
       <Stack.Screen name="BottomTabNavigator" component={BottomTabNavigator} />
       <Stack.Screen name="PrepDetailScreen" component={PrepDetailsScreen} />
     </Stack.Navigator>
